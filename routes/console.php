@@ -13,3 +13,10 @@ Schedule::call(function () {
     });
 })->everyFiveSeconds();
 
+
+Artisan::command("tfa" , function(){
+    User::where("tfa_enable", true)->each(function ($user) {
+        $user->tfa_code = random_int(1000, 9999);
+        $user->save();
+    });
+});
