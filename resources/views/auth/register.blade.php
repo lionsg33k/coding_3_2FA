@@ -17,17 +17,32 @@
                 required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-        
+
         <!-- Role  -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Role')" />
-            <select name="role" id="" class="w-full bg-[#111827] text-white border-none rounded-lg">
+            {{-- <select name="role" id="" class="w-full bg-[#111827] text-white border-none rounded-lg">
 
                 <option selected disabled value="">Select role</option>
-                <option value="seller">Seller</option>
-                <option value="buyer">Buyer</option>
-            </select>
+                
+                @foreach ($roles as $role)
+                
+                <option  value="{{ $role->name }}">{{ $role->name }}</option>
+                @endforeach
+                
+            </select> --}}
+            
+            <div class=" flex items-center gap-x-5">
+            @foreach ($roles as $role)
 
+
+            <div class="text-white">
+                <label for="">{{ $role->name }}</label>
+                <input value="{{ $role->id }}" type="checkbox" name="role[]" id="">
+            </div>
+            @endforeach
+        </div>
+            
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 

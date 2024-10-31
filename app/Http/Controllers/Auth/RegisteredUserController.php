@@ -32,9 +32,10 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request->role);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string'],
+            'role.*' => ['required', 'string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
         ]);
 
@@ -44,11 +45,26 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
+            // 'role' => $request->role,
             'password' => Hash::make($password),
         ]);
 
         event(new Registered($user));
+
+
+        //* to assign  one role  =>  use   the role name
+
+        // $user->assignRole($request->role);
+
+        //* to assign multiple roles =>  use the role ID
+
+        $user->roles()->attach($request->role);
+
+        //* to check user role 
+
+        // if ($user->hasRole("admin")) {
+        //     dd("hello admin");
+        // }
 
         Mail::to($user->email)->send(new PasswordMailer($password));
 

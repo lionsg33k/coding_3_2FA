@@ -10,7 +10,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth' , "password_changed" , "verified" , "2fa"])->name('dashboard');
+})->middleware(['auth' , "password_changed" , "verified" , "2fa" , "role:moderator"])->name('dashboard');
 
 Route::middleware(['auth' , "password_changed" , "2fa"])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
